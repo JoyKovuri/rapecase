@@ -14,7 +14,7 @@ from sklearn.metrics import precision_score,recall_score
 
 
 def main():
-    st.title("Rape Cases In India by state/city")
+    st.title("Rape Cases Analysis In INDIA by State/UT")
     st.sidebar.title("App Sidebar")
     st.sidebar.markdown("Let's start")
 
@@ -32,8 +32,8 @@ def main():
 
     @st.cache_data(persist = True)
     def split(df):
-        y = df['Category']
-        x = df.drop(columns=['Category'])
+        y = df['State/UT']
+        x = df.drop(columns=[''State/UT'])
         x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.3,
                                                          random_state = 42)
         return x_train,x_test,y_train,y_test
