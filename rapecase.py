@@ -14,7 +14,7 @@ from sklearn.metrics import precision_score,recall_score
 
 
 def main():
-    st.title("Rape Cases In India by state/city")
+    st.title("Rape Cases In India by state/city,fontsize=20")
     st.sidebar.title("App Sidebar")
     st.sidebar.markdown("Let's start")
 
@@ -28,7 +28,7 @@ def main():
     df = load()#call the function
     if st.sidebar.checkbox("Display data",False):
         st.subheader("Data is displayed")
-        st.write(df)
+        st.write(df,fontsize=20)
 
     @st.cache_data(persist = True)
     def split(df):
