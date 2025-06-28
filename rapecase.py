@@ -2,6 +2,8 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import warnings
+warnings.filterwarnings('ignore')
 from sklearn import metrics
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
@@ -14,7 +16,7 @@ from sklearn.metrics import precision_score,recall_score
 
 
 def main():
-    st.title("Rape Cases Analysis In INDIA by State/UT")
+    st.title("Rape Cases In India by state/city")
     st.sidebar.title("App Sidebar")
     st.sidebar.markdown("Let's start")
 
@@ -28,12 +30,12 @@ def main():
     df = load()#call the function
     if st.sidebar.checkbox("Display data",False):
         st.subheader("Data is displayed")
-        st.write(df,fontsize=25)
+        st.write(df)
 
     @st.cache_data(persist = True)
     def split(df):
-        y = df['State/UT']
-        x = df.drop(columns=[''State/UT'])
+        y = df['Category']
+        x = df.drop(columns=['Category'])
         x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.3,
                                                          random_state = 42)
         return x_train,x_test,y_train,y_test
@@ -62,7 +64,8 @@ def main():
         max_iter = st.sidebar.slider("Maximum iterations",100,500,key="max_iter")
         metrics = st.sidebar.multiselect("What Metrics to plot?",
                                          ("Confusion Matrix","ROC Curve","Precision-Recall Curve"))
-        if st.sidebar.button("Classify",key = "classify"):
+        if st.sidebar.button("Classify", key="classify_lr"):
+            # Logistic
             st.subheader("Logistic Regression Results")
             model = LogisticRegression(C=C,max_iter =max_iter)
             model.fit(x_train,y_train)
@@ -72,7 +75,7 @@ def main():
             st.write("Precision:",precision_score(y_test,y_pred,average='macro'))
             st.write("Recall:",recall_score(y_test,y_pred,average='macro'))
             plot_metrics(metrics)
-            
+        
     if classifier == "Random Forest":
         st.sidebar.subheader("Hyperparameters")
         n_estimators = st.sidebar.number_input("The number of trees in the \
@@ -81,7 +84,8 @@ def main():
                                             tree" ,1,20,step = 1,key="max_depth")
         metrics = st.sidebar.multiselect("What Metrics to plot?",
                                          ("Confusion Matrix","ROC Curve","Precision-Recall Curve"))
-        if st.sidebar.button("Classify",key = "classify"):
+        if st.sidebar.button("Classify", key="classify_rf"):
+            # Random Forest
             st.subheader("Random Forest Results")
             model = RandomForestClassifier(n_estimators = n_estimators,
                                            max_depth = max_depth,n_jobs=-1)
