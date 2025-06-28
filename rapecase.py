@@ -28,7 +28,7 @@ def main():
     df = load()#call the function
     if st.sidebar.checkbox("Display data",False):
         st.subheader("Data is displayed")
-        st.write(df,fontsize=20)
+        st.write(df,fontsize=25)
 
     @st.cache_data(persist = True)
     def split(df):
