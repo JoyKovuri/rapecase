@@ -16,7 +16,7 @@ from sklearn.metrics import precision_score,recall_score
 
 
 def main():
-    st.title("Rape Cases In India by state/city")
+    st.title("Rape Cases Analysis In India by State/UT")
     st.sidebar.title("App Sidebar")
     st.sidebar.markdown("Let's start")
 
